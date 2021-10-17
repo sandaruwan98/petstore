@@ -3,10 +3,7 @@ package com.example.petstore;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -17,14 +14,15 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 @Path("/v1/pets")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class PetResource {
 
 	@APIResponses(value = {
 			@APIResponse(responseCode = "200", description = "All Pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))) })
 	@GET
 	public Response getPets() {
-		List<Pet> pets = new ArrayList<Pet>();
+		List<Pet> pets = new ArrayList<>();
 		Pet pet1 = new Pet();
 		pet1.setPetId(1);
 		pet1.setPetAge(3);
@@ -67,4 +65,51 @@ public class PetResource {
 		return Response.ok(pet).build();
 		
 	}
+
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200",description = "Update pet for id",content = @Content(mediaType = MediaType.APPLICATION_JSON,schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404",description = "No Pet found for the id.") })
+	@PUT
+	@Path("{petId}")
+	public Response updatePet(@PathParam("petId") int petId,Pet pet) {
+		if (petId < 0) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		Pet newPet = new Pet();
+		newPet.setPetId(petId);
+		newPet.setPetAge(pet.getPetAge());
+		newPet.setPetName(pet.getPetName());
+		newPet.setPetType(pet.getPetType());
+
+		return Response.ok(newPet).build();
+
+	}
+
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200",description = "Add new pet",content = @Content(mediaType = MediaType.APPLICATION_JSON,schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "500",description = "Failed to create a pet") })
+
+	@POST
+	public Response addPet(Pet pet) {
+
+
+
+		return Response.ok(pet).build();
+
+	}
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200",description = "Delete pet",content = @Content(mediaType = MediaType.APPLICATION_JSON,schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "500",description = "Failed to delete pet") })
+
+	@DELETE
+	@Path("{petId}")
+	public Response deletePet(@PathParam("petId") int petId) {
+
+
+		String res =  "Deleted pet with id "+petId;
+		return Response.ok(res).build();
+
+	}
+
+
 }
