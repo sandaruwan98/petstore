@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 
 @Entity
-@Schema
+@Schema(name = "Pet")
 public class Pet {
 	@Id @GeneratedValue private Long id;
 
