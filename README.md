@@ -66,8 +66,13 @@ If you want to learn more about building native executables, please consult http
 To deploy the demo app on a docker-compose please visit [./deploy](https://github.com/rasika/petstore/tree/master/deploy)
 
 First goto ./deploy directory in project folder.
+Then docker-compose.yaml change petstore image to your docker image name.
 
-sc
+After that run
+
+    docker-compose up -d
+
+
 
 ## Testing Application
 
@@ -104,25 +109,16 @@ You can see test results in 'build/test-results' folder
 
 
 #### To Get all pet types
-    curl -X GET "http://localhost:8080/v1/pets" -H  "accept: application/json"
+    curl -X GET "http://localhost:8080/v1/pettypes" -H  "accept: application/json"
 
 #### To Get pet type by id
-    curl -X GET "http://localhost:8080/v1/pets/{petid}" -H  "accept: application/json"
+    curl -X GET "http://localhost:8080/v1/pettypes/{pet type id}" -H  "accept: application/json"
 
-#### To Search pets by age
-    curl -X GET "http://localhost:8080/v1/pets/search/age/{petAge}" -H  "accept: */*"
-#### To Search pet by pet name
-    curl -X GET "http://localhost:8080/v1/pets/search/name/{petName}" -H  "accept: */*"
-#### To Search pets by pet type name
-    curl -X GET "http://localhost:8080/v1/pets/search/petType/name/{pet type name}" -H  "accept: */*"
-#### To Search pets by pet type id
-    curl -X GET "http://localhost:8080/v1/pets/search/petType/id/{pet type id}" -H  "accept: */*"
+#### To add this example pet type
+    curl -X POST "http://localhost:8080/v1/pettypes" -H  "accept: application/json" -H  "Content-Type: application/json"-d "{\"typeName\":\"string\"}"
 
-#### To add this example pet
-    curl -X POST "http://localhost:8080/v1/pets" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"id\":1,\"petAge\":0,\"petName\":\"string\",\"petTypeId\":1}"
-
-#### To update pet with is 2
-    curl -X PUT "http://localhost:8080/v1/pets/2" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"petAge\":0,\"petName\":\"string\",\"petTypeId\":2}"
+#### To update pet with is 3
+    curl -X PUT "http://localhost:8080/v1/pettypes" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"id\":3,\"typeName\":\"string\"}"
 
 #### To Delete pet with is 3
-    curl -X DELETE "http://localhost:8080/v1/pets/2" -H  "accept: application/json"
+    curl -X DELETE "http://localhost:8080/v1/pettypes/2" -H  "accept: application/json"
