@@ -1,5 +1,6 @@
 package com.example.petstore.pet;
 
+import com.example.petstore.pettype.PetType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -7,6 +8,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -14,21 +16,23 @@ import javax.persistence.Id;
 public class Pet {
 	@Id @GeneratedValue private Long id;
 
-	private String petType;
 	private String petName;
 	private Integer petAge;
+
+	@ManyToOne
+	private PetType petType;
 
 	public Pet() {
 	}
 
-	public Pet(Long id, String petType, String petName, Integer petAge) {
+	public Pet(Long id, PetType petType, String petName, Integer petAge) {
 		this.id = id;
 		this.petType = petType;
 		this.petName = petName;
 		this.petAge = petAge;
 	}
 
-	public Pet(String petType, String petName, Integer petAge) {
+	public Pet(PetType petType, String petName, Integer petAge) {
 
 		this.petType = petType;
 		this.petName = petName;
@@ -43,12 +47,12 @@ public class Pet {
 //		this.id = id;
 //	}
 
-	public String getPetType() {
-		return petType;
+	public void setPetType(PetType petType) {
+		this.petType = petType;
 	}
 
-	public void setPetType(String petType) {
-		this.petType = petType;
+	public PetType getPetType() {
+		return petType;
 	}
 
 	public String getPetName() {

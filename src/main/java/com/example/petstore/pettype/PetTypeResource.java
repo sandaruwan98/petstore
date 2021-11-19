@@ -17,6 +17,7 @@ public class PetTypeResource {
 
     @GET
     public Response getPetTypes(){
+
         List<PetType> petTypes = petTypeRepository.listAll();
         return Response.ok(petTypes).build();
     }
@@ -30,15 +31,19 @@ public class PetTypeResource {
     @POST
     @Transactional
     public Response AddPetType(PetType petType){
+
         petTypeRepository.persist(petType);
         return Response.ok(petType).build();
     }
     @PUT
+    @Transactional
     public Response UpdatePetType( PetType updateData){
-        petTypeRepository.update("",updateData.getId(),updateData.getTypeName());
+        petTypeRepository.update("typeName = ?2 where id = ?1",updateData.getId(),updateData.getTypeName());
         return Response.ok(updateData).build();
     }
+
     @DELETE
+    @Transactional
     @Path("{id}")
     public Response DeletePetType(@PathParam("id") Long id){
         if( petTypeRepository.deleteById(id))

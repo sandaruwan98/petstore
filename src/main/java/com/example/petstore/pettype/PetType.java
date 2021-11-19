@@ -3,10 +3,7 @@ package com.example.petstore.pettype;
 import com.example.petstore.pet.Pet;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Schema(name = "PetType")
@@ -21,8 +18,8 @@ public class PetType {
 	@Schema(required = true, description = "Pet type name")
 	private String typeName;
 
-//	@ManyToMany
-//	private List<Pet> pets;
+	@OneToMany
+	private List<Pet> pets;
 
 	public PetType() {
 	}
